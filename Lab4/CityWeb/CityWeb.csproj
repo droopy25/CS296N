@@ -241,6 +241,8 @@
     <Content Include="Views\Topics\Edit.cshtml" />
     <Content Include="Views\Topics\Index.cshtml" />
     <Content Include="Views\Messages\Search.cshtml" />
+    <Content Include="Views\Messages\DetailsSearch.cshtml" />
+    <Content Include="Views\Messages\IndexSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

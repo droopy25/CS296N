@@ -38,6 +38,10 @@ namespace CityWeb.Controllers
         // GET: Messages/Create
         public ActionResult Create()
         {
+            ViewBag.Topics =
+                new SelectList(db.Topics.OrderBy(s => s.Category), "TopicID", "Category");
+            ViewBag.Users =
+                new SelectList(db.Messages.OrderBy(m => m.From), "MessageID", "From");
             return View();
         }
 
@@ -46,16 +50,35 @@ namespace CityWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MessageID,Category,Subject,Body,Date,From")] Message message)
+        public ActionResult Create([Bind(Include = "MessageID,Subject,Body,Date,From,TopicName,Topics")] MessageViewModel messageVM, int Topics)
         {
             if (ModelState.IsValid)
             {
+                Topic topic = (from s in db.Topics
+                               where s.TopicID == Topics
+                               select s).FirstOrDefault();
+
+                if (topic == null)
+                {
+                    topic = new Topic() { Category = messageVM.TopicName.Category };
+                    db.Topics.Add(topic);
+                }
+
+                Message message = new Message()
+                {
+                    Subject = messageVM.Subject,
+                    MessageID = messageVM.MessageID,
+                    Body = messageVM.Body,
+                    Date = messageVM.Date,
+                    TopicID = topic.TopicID,
+                    From = messageVM.From
+                };
                 db.Messages.Add(message);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(message);
+            return View(messageVM);
         }
 
         // GET: Messages/Edit/5
@@ -160,9 +183,9 @@ namespace CityWeb.Controllers
                                     };*/
             //If there is just one book display the detail view 
             if (messageVMs.Count == 1)
-                return View("Details", messageVMs[0]);
+                return View("DetailsSearch", messageVMs[0]);
             else 
-                return View("Index", messageVMs);
+                return View("IndexSearch", messageVMs);
             
 
             //If there is multiple books display the index view
