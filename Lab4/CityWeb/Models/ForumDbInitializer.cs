@@ -6,7 +6,8 @@ using System.Web;
 
 namespace CityWeb.Models
 {
-    public class ForumDbInitializer : DropCreateDatabaseAlways<CityWebContext>
+    //public class ForumDbInitializer : DropCreateDatabaseAlways<CityWebContext>
+    public class ForumDbInitializer : DropCreateDatabaseIfModelChanges<CityWebContext>
     {
         protected override void Seed(CityWebContext context)
         {

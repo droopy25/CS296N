@@ -34,6 +34,19 @@ namespace CityWeb.Controllers
             }
             return View(message);
         }
+        public ActionResult DetailsSearch(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MessageViewModel message = GetTopicandMessage(id);
+            if (message == null)
+            {
+                return HttpNotFound();
+            }
+            return View(message);
+        }
 
         // GET: Messages/Create
         public ActionResult Create()
