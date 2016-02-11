@@ -10,6 +10,7 @@ namespace CityWeb.Models
         
         public int MessageID { get; set; }
         public int TopicID { get; set; }
+        //public int MemberID { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
         public string Date { get; set; }

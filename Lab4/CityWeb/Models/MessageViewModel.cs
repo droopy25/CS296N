@@ -14,5 +14,6 @@ namespace CityWeb.Models
         public string Date { get; set; }
         public string From { get; set; }
         public Topic TopicName { get; set; }
+        //public Member UserName { get; set; }
     }
 }

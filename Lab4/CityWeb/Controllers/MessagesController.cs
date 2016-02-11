@@ -54,7 +54,7 @@ namespace CityWeb.Controllers
             ViewBag.Topics =
                 new SelectList(db.Topics.OrderBy(s => s.Category), "TopicID", "Category");
             ViewBag.Users =
-                new SelectList(db.Messages.OrderBy(m => m.From), "MessageID", "From");
+                new SelectList(db.Messages.Distinct().OrderBy(m => m.From), "MessageID", "From");
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace CityWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MessageID,Subject,Body,Date,From,TopicName,Topics")] MessageViewModel messageVM, int Topics)
+        public ActionResult Create([Bind(Include = "MessageID,Subject,Body,Date,From,TopicName,Topics,Users")] MessageViewModel messageVM, int Topics, int Users)
         {
             if (ModelState.IsValid)
             {
@@ -71,10 +71,19 @@ namespace CityWeb.Controllers
                                where s.TopicID == Topics
                                select s).FirstOrDefault();
 
+                Message user = (from u in db.Messages
+                                where u.MessageID == Users
+                                select u).FirstOrDefault();
+
                 if (topic == null)
                 {
                     topic = new Topic() { Category = messageVM.TopicName.Category };
                     db.Topics.Add(topic);
+                }
+                if (user == null)
+                {
+                    user = new Message() { From = messageVM.From };
+                    db.Messages.Add(user);
                 }
 
                 Message message = new Message()
@@ -84,7 +93,7 @@ namespace CityWeb.Controllers
                     Body = messageVM.Body,
                     Date = messageVM.Date,
                     TopicID = topic.TopicID,
-                    From = messageVM.From
+                    From = user.From                                    
                 };
                 db.Messages.Add(message);
                 db.SaveChanges();
