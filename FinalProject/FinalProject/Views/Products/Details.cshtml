@@ -1,0 +1,56 @@
+﻿@model FinalProject.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">               
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Strain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Strain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Q_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Q_Type)
+        </dd>
+        <dd>
+            @Html.DisplayNameFor(model => model.MemberName.Name)
+        </dd>
+        <dt>
+            @Html.DisplayFor(model => model.MemberName.Name)
+        </dt>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
