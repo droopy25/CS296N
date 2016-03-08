@@ -1,0 +1,45 @@
+﻿@model Final.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<script language="javascript" type="text/javascript">
+    function GetCity(_stateId) {
+        var procemessage = "<option>Select State</option>";
+        $("#ddlcity").html(procemessage).show();
+        var url = "/Products/Search/";
+
+        $.ajax({
+            url: url,
+            data: { stateid: _stateId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option>Select City</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].CityID + ">" + data[x].CityName + "</option>";
+                }
+                $("#ddlcity").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }
+
+
+</script>
+<h2>Search</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.DropDownListFor(m => m.States, new SelectList(Model.States, "StateID", "StateName"), "", new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })
+        <br />
+        <br />
+        <select id="ddlcity" name="ddlcity" style="width: 200px"></select>
+        <br /><br />
+        <input type="submit" value="Search" class="btn btn-default" formaction='@Url.Action("GetProducts", "Products")' />
+    </div>
+
+}

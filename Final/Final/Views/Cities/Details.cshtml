@@ -1,0 +1,42 @@
+﻿@model Final.Models.City
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>City</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StateName.StateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StateName.StateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CityID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
