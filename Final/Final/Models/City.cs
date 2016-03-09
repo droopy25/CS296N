@@ -10,7 +10,18 @@ namespace Final.Models
         public int CityID { get; set; }
         public int StateID { get; set; }
         public int MemberID { get; set; }
-        public string CityName { get; set; }
+        private string city;
+        public string CityName
+        {
+            get
+            {
+                return city;
+            }
+            set
+            {
+                city = value.ToUpper();
+            }
+        }
         public State StateName { get; set; }
         List<Member> members = new List<Member>();
         public List<Member> Members

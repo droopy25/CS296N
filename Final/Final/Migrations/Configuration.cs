@@ -135,8 +135,8 @@ namespace Final.Migrations
             G123.Products.Add(clone4);
             G123.Products.Add(flower1);
             G123.Products.Add(flower2);
-            context.States.Add(state1);
-            context.States.Add(state2);
+            context.States.AddOrUpdate(s => s.StateName, state1, state2);
+            //context.States.Add(state2);
 
             
             Member M = context.Users.Where(u => u.UserName == "ptony25@gmail.com").FirstOrDefault();

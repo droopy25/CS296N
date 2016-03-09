@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Final.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Security;
+using System.Data.Entity;
 
 namespace Final.Controllers
 {
@@ -104,20 +106,36 @@ namespace Final.Controllers
             {
                 return View();
             }
-
+            var state = db.States.Where(s => s.StateName == model.State.StateName).FirstOrDefault();
+            if (state == null)
+            {
+                state = model.State;
+            }
+            var city = db.Cities.Where(c => c.CityName == model.City.CityName).FirstOrDefault();
+            if(city == null)
+            {
+                city = model.City;
+            }
+            state.Cities.Add(model.City);
+            db.Entry(state).State = EntityState.Modified;
+            db.SaveChanges();
             var user = new Member
             {
                 UserName = model.Email,
-                Category = Categories,
-                CityName = model.City,
-                StateName = model.State
+                Category = Categories,                
+                CityName = city,
+                StateName = state
             };
-
             var result = userManager.Create(user, model.Password);
 
             if (result.Succeeded)
             {
                 SignIn(user);
+                if (user.Category == "Dispensary")
+                    userManager.AddToRole(user.Id, "Dispensary");
+                else
+                    userManager.AddToRole(user.Id, "Grower");
+
                 return RedirectToAction("index", "home");
             }
 
@@ -151,9 +169,7 @@ namespace Final.Controllers
         }
 
         //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // /Account/LogOff       
         public ActionResult LogOff()
         {
             var ctx = Request.GetOwinContext();
