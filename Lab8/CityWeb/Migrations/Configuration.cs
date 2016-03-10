@@ -55,8 +55,8 @@ namespace CityWeb.Migrations
             topic1.Messages.Add(message2);
             topic2.Messages.Add(message3);
             topic2.Messages.Add(message4);
-            context.Topics.Add(topic1);
-            context.Topics.Add(topic2);
+            context.Topics.AddOrUpdate(t => t.TopicID, topic1, topic2);
+            //context.Topics.Add(topic2);
 
             UserManager<Member> userManager = new UserManager<Member>(
               new UserStore<Member>(context));
