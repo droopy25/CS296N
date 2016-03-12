@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Final.Models;
 using System.Collections;
+using Microsoft.AspNet.Identity;
 
 namespace Final.Controllers
 {
@@ -20,6 +21,11 @@ namespace Final.Controllers
         public ActionResult Index()
         {
             return View(GetMembersandProducts(0));
+        }
+
+        public ActionResult MemberIndex(string id)
+        {
+            return View(GetMemberProducts(id));
         }
 
         // GET: Products/Details/5
@@ -48,16 +54,29 @@ namespace Final.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,MemberID,Type,Strain,Quantity,Q_Type")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,MemberID,Type,Strain,Quantity,Q_Type")] ProductViewModel productVM, string Types, string QuantityType)
         {
             if (ModelState.IsValid)
             {
+                Member vendor = db.Users.Find(User.Identity.GetUserId());
+                Member user = (from u in db.Users
+                               where u.Id == vendor.Id
+                               select u).FirstOrDefault();
+                Product product = new Product()
+                {
+
+                    Type = Types,
+                    Strain = productVM.Strain,
+                    Quantity = productVM.Quantity,
+                    Q_Type = QuantityType,
+                    MemberName = user
+                };
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MemberIndex");
             }
 
-            return View(product);
+            return View(productVM);
         }
 
         // GET: Products/Edit/5
@@ -157,12 +176,8 @@ namespace Final.Controllers
                     });
                 }
             }
-            if (productVMs.Count == 1)
-            {
-                return View("DetailSearch", productVMs[0]);
-            }
-            else
-                return View("IndexSearch", productVMs);
+           
+            return View("IndexSearch", productVMs);
         }
         public List<State> GetStates()
         {
@@ -234,6 +249,31 @@ namespace Final.Controllers
                                               MemberName = m
                                           }).FirstOrDefault();
             return productVM;
+        }
+        public List<ProductViewModel> GetMemberProducts(string id)
+        {
+            Member vendor = db.Users.Find(User.Identity.GetUserId());
+            var productVMs = new List<ProductViewModel>();
+            var member = (from m in db.Users.Include("Products")
+                          where m.Id == vendor.Id
+                          select m);
+            db.Products.Load();
+            foreach (Member m in member)
+            {
+                foreach (Product p in m.Products)
+                {
+                    productVMs.Add(new ProductViewModel()
+                    {
+                        Strain = p.Strain,
+                        Type = p.Type,
+                        Quantity = p.Quantity,
+                        Q_Type = p.Q_Type,
+                        MemberName = m,
+                        ProductID = p.ProductID
+                    });
+                }
+            }
+            return productVMs;
         }
     }
 }

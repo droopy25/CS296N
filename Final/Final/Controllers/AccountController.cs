@@ -66,7 +66,7 @@ namespace Final.Controllers
                 if (user.Category == "Dispensary")
                     return RedirectToAction("Search", "Products");
                 else if (user.Category == "Grower")
-                    return RedirectToAction("Index", "Products");
+                    return RedirectToAction("MemberIndex", "Products");
                 else
                     return RedirectToAction("Index", "Home");
             }

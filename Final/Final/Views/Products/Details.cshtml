@@ -1,4 +1,4 @@
-﻿@model Final.Models.Product
+﻿@model Final.Models.ProductViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,48 +11,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.MemberID)
+            @Html.DisplayNameFor(model => model.MemberName.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MemberID)
+            @Html.DisplayFor(model => model.MemberName.Name)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayNameFor(model => model.MemberName.Phone)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.MemberName.Phone)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Strain)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Strain)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Q_Type)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Q_Type)
-        </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
+
+    @Html.ActionLink("Search Again", "Search")
 </p>

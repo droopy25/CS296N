@@ -34,7 +34,7 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.DropDownListFor(m => m.States, new SelectList(Model.States, "StateID", "StateName"), "", new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })
+        @Html.DropDownListFor(m => m.States, new SelectList(Model.States, "StateID", "StateName"), "Select State", new { @id = "ddlstate", @style = "width:200px;", @onchange = "javascript:GetCity(this.value);" })
         <br />
         <br />
         <select id="ddlcity" name="ddlcity" style="width: 200px"></select>
