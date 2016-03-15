@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace CityWeb.Models
@@ -25,5 +27,7 @@ namespace CityWeb.Models
         public System.Data.Entity.DbSet<CityWeb.Models.Message> Messages { get; set; }
 
         public System.Data.Entity.DbSet<CityWeb.Models.Topic> Topics { get; set; }
+
+      
     }
 }

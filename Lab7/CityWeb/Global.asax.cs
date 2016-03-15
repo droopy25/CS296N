@@ -15,7 +15,7 @@ namespace CityWeb
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new ForumDbInitializer());
+            //Database.SetInitializer(new ForumDbInitializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace CityWeb.Controllers
 {
     public class AccountController : Controller
@@ -55,7 +56,7 @@ namespace CityWeb.Controllers
             return View();
         }
         [HttpGet]
-public ActionResult Register()
+        public ActionResult Register()
         {
             return View();
         }
@@ -129,6 +130,7 @@ public ActionResult Register()
             base.Dispose(disposing);
         }
         // GET: /Roles/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateRole()
         {
             return View();
@@ -137,6 +139,7 @@ public ActionResult Register()
         //
         // POST: /Roles/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateRole(FormCollection collection)
         {
             try
@@ -147,13 +150,14 @@ public ActionResult Register()
                 });
                 db.SaveChanges();
                 ViewBag.ResultMessage = "Role created successfully !";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(string RoleName)
         {
             var thisRole = db.Roles.Where(r => r.Name.Equals(
@@ -170,6 +174,7 @@ public ActionResult Register()
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult EditRole(Microsoft.AspNet.Identity.EntityFramework.IdentityRole role)
         {
             try
@@ -184,6 +189,7 @@ public ActionResult Register()
                 return View();
             }
         }
+        [Authorize(Roles = "Admin")]
         public ActionResult ManageUserRoles()
         {
             // prepopulat roles for the view dropdown
@@ -210,6 +216,7 @@ public ActionResult Register()
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetRoles(string UserName)
         {
             if (!string.IsNullOrWhiteSpace(UserName))
@@ -225,7 +232,7 @@ public ActionResult Register()
 
             return View("ManageUserRoles");
         }
-        [Authorize(Roles = "Admin, UberAdmin")]
+        //[Authorize(Roles = "Admin, UberAdmin")]
         public ActionResult Index()
         {
             var roles = db.Roles.ToList();
