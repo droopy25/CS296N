@@ -105,7 +105,7 @@ namespace Final.Controllers
             {
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MemberIndex");
             }
             return View(product);
         }
@@ -133,7 +133,7 @@ namespace Final.Controllers
             Product product = db.Products.Find(id);
             db.Products.Remove(product);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MemberIndex");
         }
         [Authorize(Roles ="Admin, Dispensary")]
         public ActionResult Search()

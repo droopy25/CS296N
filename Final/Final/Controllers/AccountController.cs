@@ -124,7 +124,8 @@ namespace Final.Controllers
                 UserName = model.Email,
                 Category = Categories,                
                 CityName = city,
-                StateName = state
+                StateName = state,
+                Phone = model.Phone
             };
             var result = userManager.Create(user, model.Password);
 

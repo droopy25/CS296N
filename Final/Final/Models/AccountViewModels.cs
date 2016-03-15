@@ -95,6 +95,9 @@ namespace Final.Models
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string Phone { get; set; }
     }
 
     public class ResetPasswordViewModel
